@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>TabBar 图标生成器</title>
+   <style>
+      * {
+         margin: 0;
+         padding: 0;
+         box-sizing: border-box;
+      }
+
+      body {
+         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+         min-height: 100vh;
+         padding: 40px 20px;
+      }
+
+      .container {
+         max-width: 1200px;
+         margin: 0 auto;
+      }
+
+      h1 {
+         text-align: center;
+         color: white;
+         margin-bottom: 40px;
+         font-size: 36px;
+      }
+
+      .icons-grid {
+         display: grid;
+         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+         gap: 30px;
+         margin-bottom: 40px;
+      }
+
+      .icon-card {
+         background: white;
+         border-radius: 20px;
+         padding: 30px;
+         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .icon-card h2 {
+         font-size: 18px;
+         color: #2c3e50;
+         margin-bottom: 20px;
+      }
+
+      .canvas-wrapper {
+         display: flex;
+         justify-content: center;
+         margin-bottom: 20px;
+      }
+
+      canvas {
+         border: 2px solid #e8ecf1;
+         border-radius: 10px;
+         cursor: pointer;
+      }
+
+      .download-btn {
+         width: 100%;
+         padding: 12px;
+         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+         color: white;
+         border: none;
+         border-radius: 10px;
+         font-size: 16px;
+         cursor: pointer;
+         transition: transform 0.2s;
+      }
+
+      .download-btn:hover {
+         transform: scale(1.05);
+      }
+
+      .download-btn:active {
+         transform: scale(0.95);
+      }
+
+      .info {
+         background: white;
+         border-radius: 20px;
+         padding: 30px;
+         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+         color: #2c3e50;
+         line-height: 1.8;
+      }
+
+      .info h3 {
+         margin-bottom: 15px;
+         color: #667eea;
+      }
+
+      .info ol {
+         margin-left: 20px;
+      }
+
+      .info li {
+         margin-bottom: 10px;
+      }
+   </style>
+</head>
+
+<body>
+   <div class="container">
+      <h1>🎨 TabBar 图标生成器</h1>
+
+      <div class="icons-grid">
+         <div class="icon-card">
+            <h2>🍜 今天吃什么 (未选中)</h2>
+            <div class="canvas-wrapper">
+               <canvas id="food-normal" width="81" height="81"></canvas>
+            </div>
+            <button class="download-btn" onclick="downloadIcon('food-normal', 'tab-food.png')">
+               下载图标
+            </button>
+         </div>
+
+         <div class="icon-card">
+            <h2>🍜 今天吃什么 (选中)</h2>
+            <div class="canvas-wrapper">
+               <canvas id="food-active" width="81" height="81"></canvas>
+            </div>
+            <button class="download-btn" onclick="downloadIcon('food-active', 'tab-food-active.png')">
+               下载图标
+            </button>
+         </div>
+
+         <div class="icon-card">
+            <h2>📍 附近餐厅 (未选中)</h2>
+            <div class="canvas-wrapper">
+               <canvas id="nearby-normal" width="81" height="81"></canvas>
+            </div>
+            <button class="download-btn" onclick="downloadIcon('nearby-normal', 'tab-nearby.png')">
+               下载图标
+            </button>
+         </div>
+
+         <div class="icon-card">
+            <h2>📍 附近餐厅 (选中)</h2>
+            <div class="canvas-wrapper">
+               <canvas id="nearby-active" width="81" height="81"></canvas>
+            </div>
+            <button class="download-btn" onclick="downloadIcon('nearby-active', 'tab-nearby-active.png')">
+               下载图标
+            </button>
+         </div>
+      </div>
+
+      <div class="info">
+         <h3>📝 使用说明</h3>
+         <ol>
+            <li>点击每个图标下方的"下载图标"按钮</li>
+            <li>将下载的图标文件放到项目的 <code>static/images/</code> 目录下</li>
+            <li>确保文件名正确: tab-food.png, tab-food-active.png, tab-nearby.png, tab-nearby-active.png</li>
+            <li>重新运行项目即可看到图标效果</li>
+         </ol>
+         <p style="margin-top: 20px; color: #7f8c8d;">
+            💡 提示: 这些是简单的 Emoji 风格图标,适合快速开发测试使用。
+         </p>
+      </div>
+   </div>
+
+   <script>
+      // 绘制"今天吃什么"图标 - 未选中
+      function drawFoodNormal () {
+         const canvas = document.getElementById('food-normal');
+         const ctx = canvas.getContext('2d');
+         ctx.fillStyle = '#7F8C8D';
+         ctx.font = '48px Arial';
+         ctx.textAlign = 'center';
+         ctx.textBaseline = 'middle';
+         ctx.fillText('🍜', 40.5, 40.5);
+      }
+
+      // 绘制"今天吃什么"图标 - 选中
+      function drawFoodActive () {
+         const canvas = document.getElementById('food-active');
+         const ctx = canvas.getContext('2d');
+
+         // 不添加背景，保持透明
+         ctx.clearRect(0, 0, 81, 81);
+
+         ctx.font = '48px Arial';
+         ctx.textAlign = 'center';
+         ctx.textBaseline = 'middle';
+         ctx.fillText('🍜', 40.5, 40.5);
+      }
+
+      // 绘制"附近餐厅"图标 - 未选中
+      function drawNearbyNormal () {
+         const canvas = document.getElementById('nearby-normal');
+         const ctx = canvas.getContext('2d');
+         ctx.fillStyle = '#7F8C8D';
+         ctx.font = '48px Arial';
+         ctx.textAlign = 'center';
+         ctx.textBaseline = 'middle';
+         ctx.fillText('📍', 40.5, 40.5);
+      }
+
+      // 绘制"附近餐厅"图标 - 选中
+      function drawNearbyActive () {
+         const canvas = document.getElementById('nearby-active');
+         const ctx = canvas.getContext('2d');
+
+         // 不添加背景，保持透明
+         ctx.clearRect(0, 0, 81, 81);
+
+         ctx.font = '48px Arial';
+         ctx.textAlign = 'center';
+         ctx.textBaseline = 'middle';
+         ctx.fillText('📍', 40.5, 40.5);
+      }
+
+      // 下载图标
+      function downloadIcon (canvasId, filename) {
+         const canvas = document.getElementById(canvasId);
+         const link = document.createElement('a');
+         link.download = filename;
+         link.href = canvas.toDataURL('image/png');
+         link.click();
+      }
+
+      // 初始化所有图标
+      window.onload = function () {
+         drawFoodNormal();
+         drawFoodActive();
+         drawNearbyNormal();
+         drawNearbyActive();
+      };
+   </script>
+</body>
+
+</html>
